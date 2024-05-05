@@ -1,0 +1,69 @@
+// Create a user
+POST http://localhost:8500/users
+Content-Type: application/json
+
+{
+    "username": "EESPINOZA",
+    "email": "esteban@gmail.com",
+    "password": "12345",
+    "firstname": "Esteban",
+    "surnames": "Espinoza",
+    "phone": "921345678",
+    "role": "admin",
+    "status": "1"
+}
+###
+
+// Create coordinador de voleibol
+POST http://localhost:8500/users
+Content-Type: application/json
+
+{
+    "username": "MCUADROS",
+    "email": "maria@gmail.com",
+    "password": "12345",
+    "firstname": "Maria",
+    "surnames": "Cuadros",
+    "phone": "919387134",
+    "role": "coordinador",
+    "sport": "voleibol",
+    "status": "1"
+}
+###
+
+// Create coordinador de futsal
+POST http://localhost:8500/users
+Content-Type: application/json
+
+{
+    "username": "JRIVERA",
+    "email": "javier@gmail.com",
+    "password": "12345",
+    "firstname": "Javier",
+    "surnames": "Rivera",
+    "phone": "944113221",
+    "role": "coordinador",
+    "sport": "futsal",
+    "status": "1"
+}
+###
+
+###
+// get all users
+GET http://localhost:8500/users
+
+###
+// LOGIN USER
+POST http://localhost:8500/login
+Content-Type: application/json
+
+{
+    "username": "EESPINOZA",
+    "password": "12345"
+}
+
+###
+GET http://localhost:8500/me
+
+###
+DELETE http://localhost:8500/logout
