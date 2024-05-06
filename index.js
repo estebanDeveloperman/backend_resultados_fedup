@@ -37,9 +37,9 @@ const store = new sessionStore({
   db: db,
 });
 
-// (async () => {
-//    await db.sync();
-//  })();
+(async () => {
+   await db.sync();
+ })();
 
 // codigo para produccion
 app.use(
@@ -98,7 +98,7 @@ app.use(PeriodRoute);
 app.use(ResultRoute);
 app.use(PositionRoute);
 app.use(PositionApiRoute);
-// store.sync();
+store.sync();
 
 app.listen(PORT, () => {
   console.log("Servidor levantado en el puerto", PORT);
