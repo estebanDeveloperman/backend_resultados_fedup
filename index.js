@@ -25,6 +25,8 @@ import PositionRoute from "./routes/routes_resultados/PositionRoute.js";
 // api
 import PositionApiRoute from "./routes/routes_api/PositionApiRoute.js";
 
+import { PORT } from "./config.js";
+
 // configuraciones
 dotenv.config();
 const app = express();
@@ -40,41 +42,41 @@ const store = new sessionStore({
 //  })();
 
 // codigo para produccion
-// app.use(
-//   session({
-//     secret: "tiwiisgonnabeaking123912898932",
-//     resave: false,
-//     saveUninitialized: true,
-//     store: store,
-//     proxy: true,
-//     name: "MyCoolWebAppCookieName",
-//     cookie: {
-//       secure: true,
-//       sameSite: "none",
-//     },
-//   })
-// );
-
-// store.sync();
-
-// codigo para desarrollo
 app.use(
   session({
-    secret: process.env.SESS_SECRET,
+    secret: "tiwiisgonnabeaking123912898932",
     resave: false,
     saveUninitialized: true,
     store: store,
+    proxy: true,
+    name: "MyCoolWebAppCookieName",
     cookie: {
-      secure: "auto",
+      secure: true,
+      sameSite: "none",
     },
   })
 );
 
+// store.sync();
+
+// codigo para desarrollo
+// app.use(
+//   session({
+//     secret: process.env.SESS_SECRET,
+//     resave: false,
+//     saveUninitialized: true,
+//     store: store,
+//     cookie: {
+//       secure: "auto",
+//     },
+//   })
+// );
+
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000",
-    //   origin: "https://winscore.perufedup.com",
+    // origin: "http://localhost:3000",
+    origin: "https://winscore.perufedup.com",
     methods: ["POST", "GET", "DELETE", "PUT", "PATCH"],
   })
 );
@@ -98,6 +100,6 @@ app.use(PositionRoute);
 app.use(PositionApiRoute);
 // store.sync();
 
-app.listen(process.env.PORT, () => {
-  console.log("Servidor levantado en el puerto", process.env.PORT);
+app.listen(PORT, () => {
+  console.log("Servidor levantado en el puerto", PORT);
 });
