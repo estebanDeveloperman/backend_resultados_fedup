@@ -49,6 +49,25 @@ Content-Type: application/json
 ###
 
 ###
+
+// Create coordinador de futsal
+POST http://localhost:8500/users
+Content-Type: application/json
+
+{
+    "username": "CFUENTES",
+    "email": "cfuentes@gmail.com",
+    "password": "fedup2024",
+    "firstname": "Consuelo",
+    "surnames": "Fuentes",
+    "phone": "944113221",
+    "role": "coordinador",
+    "sport": "voleibol",
+    "status": "1"
+}
+###
+
+###
 // get all users
 GET http://localhost:8500/users
 
