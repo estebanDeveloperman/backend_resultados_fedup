@@ -44,41 +44,41 @@ const store = new sessionStore({
 //  })();
 
 // codigo para produccion
-// app.use(
-//   session({
-//     secret: "tiwiisgonnabeaking123912898932",
-//     resave: false,
-//     saveUninitialized: true,
-//     store: store,
-//     proxy: true,
-//     name: "MyCoolWebAppCookieName",
-//     cookie: {
-//       secure: true,
-//       sameSite: "none",
-//     },
-//   })
-// );
-
-// store.sync();
-
-// codigo para desarrollo
 app.use(
   session({
-    secret: process.env.SESS_SECRET,
+    secret: "tiwiisgonnabeaking123912898932",
     resave: false,
     saveUninitialized: true,
     store: store,
+    proxy: true,
+    name: "MyCoolWebAppCookieName",
     cookie: {
-      secure: "auto",
+      secure: true,
+      sameSite: "none",
     },
   })
 );
 
+// store.sync();
+
+// codigo para desarrollo
+// app.use(
+//   session({
+//     secret: process.env.SESS_SECRET,
+//     resave: false,
+//     saveUninitialized: true,
+//     store: store,
+//     cookie: {
+//       secure: "auto",
+//     },
+//   })
+// );
+
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000",
-    // origin: "https://winscore.perufedup.com",
+    // origin: "http://localhost:3000",
+    origin: "https://winscore.perufedup.com",
     methods: ["POST", "GET", "DELETE", "PUT", "PATCH"],
   })
 );
