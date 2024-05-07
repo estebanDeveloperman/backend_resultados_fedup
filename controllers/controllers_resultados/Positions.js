@@ -1,6 +1,7 @@
 import Position from "../../models/models_resultados/PositionsModel.js";
 
 export const getPositionByPhase = async (req, res) => {
+  const { idphase, nrofecha } = req.query;
   try {
     const response = await Position.findAll({
       attributes: [
@@ -26,8 +27,13 @@ export const getPositionByPhase = async (req, res) => {
         "idphase",
       ],
       where: {
-        idphase: req.params.idphase,
+        idphase: idphase,
+        nrofecha: nrofecha,
       },
+      order: [
+        ["pts", "DESC"], 
+        ["dp", "DESC"], 
+      ]
     });
     res.status(200).json(response);
   } catch (error) {
@@ -75,9 +81,15 @@ export const getPositionByPhaseVoleibol = async (req, res) => {
       ],
       where: {
         idphase: idphase,
-        nrofecha: nrofecha
+        nrofecha: nrofecha,
         // idphase: req.params.idphase,
       },
+      order: [
+        ["pts", "DESC"], 
+        ["pg", "DESC"], 
+        ["setRatio", "DESC"],
+        ["puntosRatio", "DESC"]
+      ]
     });
     res.status(200).json(response);
   } catch (error) {
@@ -97,7 +109,7 @@ export const createPosition = async (req, res) => {
 };
 
 export const updatePosition = async (req, res) => {
-  const { idgroup, pts, pj, pg, wo, pp, pf, pe, dp } = req.body;
+  const { nrofecha, idgroup, pts, pj, pg, wo, pp, pf, pe, dp } = req.body;
 
   try {
     const response = await Position.update(
@@ -113,6 +125,7 @@ export const updatePosition = async (req, res) => {
       },
       {
         where: {
+          nrofecha: nrofecha,
           idgroup: idgroup,
         },
       }

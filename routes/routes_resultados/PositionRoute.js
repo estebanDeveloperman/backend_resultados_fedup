@@ -9,7 +9,7 @@ import {
 
 const router = express.Router();
 
-router.get("/position/:idphase", getPositionByPhase);
+router.get("/position", getPositionByPhase);
 router.get("/positionvoleibol", getPositionByPhaseVoleibol);
 
 router.post("/position", createPosition);

@@ -47,7 +47,24 @@ Content-Type: application/json
     "status": "1"
 }
 ###
+###
 
+// Create coordinador de basquetbol
+POST http://localhost:8500/users
+Content-Type: application/json
+
+{
+    "username": "ADIAZ",
+    "email": "alfredo@gmail.com",
+    "password": "12345",
+    "firstname": "Alfredo",
+    "surnames": "Diaz",
+    "phone": "944113221",
+    "role": "coordinador",
+    "sport": "basquetbol",
+    "status": "1"
+}
+###
 ###
 
 // Create coordinador de futsal
