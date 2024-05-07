@@ -63,6 +63,11 @@ export const getPositionsByApi = async (req, res) => {
         idphase: idPhase,
         nrofecha: nrofecha,
       },
+      order: [
+        ["pts", "DESC"], // Ordena por pts de forma descendente
+        ["pg", "DESC"], // Si hay empate en pts, ordena por pg de forma descendente
+        ["setRatio", "DESC"], // Si hay empate en pts y pg, ordena por setRatio de forma descendente
+      ],
     });
 
     res.status(200).json(responsePosition);

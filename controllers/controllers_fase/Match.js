@@ -71,6 +71,34 @@ export const getMatchById = async (req, res) => {
   }
 };
 
+const getPeriodByMatch = async (idmatch) => {
+  try {
+    const response = await Period.findAll({
+      attributes: [
+        "idperiod",
+        "idmatch",
+        "groupAsciiLetter",
+        "dateOrder",
+        "nroPeriodo",
+        "puntos1",
+        "puntos2",
+        "idgroup1",
+        "idgroup2",
+        "idsport",
+        "minutes",
+        "idfecha",
+        "idphase",
+      ],
+      where: {
+        idmatch: idmatch,
+      },
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getMatchesByPhase = async (req, res) => {
   try {
     const response = await Matches.findAll({
@@ -109,27 +137,6 @@ export const getMatchesByPhase = async (req, res) => {
       res.status(204).send();
       return;
     }
-
-    // const responsePerd = await Period.findAll({
-    //   attributes: [
-    //     "idperiod",
-    //     "idmatch",
-    //     "groupAsciiLetter",
-    //     "dateOrder",
-    //     "nroPeriodo",
-    //     "puntos1",
-    //     "puntos2",
-    //     "idgroup1",
-    //     "idgroup2",
-    //     "idsport",
-    //     "minutes",
-    //     "idfecha",
-    //     "idphase",
-    //   ],
-    //   where: {
-    //     idmatch: req.params.idmatch,
-    //   },
-    // });
 
     // response agregar un atributo objeto
     const responseMapeadoPromises = response.map(async (match) => {
@@ -171,28 +178,44 @@ export const getMatchesByPhase = async (req, res) => {
         responseGroup1P,
         responseGroup2P,
       ]);
-      const responseInstitution1 = await Participant.findOne({
-        attributes: ["idparticipant", "idinstitution"],
-        where: {
-          idparticipant:
-            responseGroup1 && responseGroup1.toJSON()
-              ? responseGroup1.toJSON().idparticipant
-              : "",
-        },
-      });
-      const responseInstitution2 = await Participant.findOne({
-        attributes: ["idparticipant", "idinstitution"],
-        where: {
-          idparticipant:
-            responseGroup2 && responseGroup2.toJSON()
-              ? responseGroup2.toJSON().idparticipant
-              : "",
-        },
-      });
+      const [responseInstitution1, responseInstitution2, responsePerd] = await Promise.all([
+        Participant.findOne({
+          attributes: ["idparticipant", "idinstitution"],
+          where: {
+            idparticipant: responseGroup1 ? responseGroup1.idparticipant : "",
+          },
+        }),
+        Participant.findOne({
+          attributes: ["idparticipant", "idinstitution"],
+          where: {
+            idparticipant: responseGroup2 ? responseGroup2.idparticipant : "",
+          },
+        }),
+        getPeriodByMatch(matchModificado.idmatch),
+      ]);
+      // const responseInstitution1 = await Participant.findOne({
+      //   attributes: ["idparticipant", "idinstitution"],
+      //   where: {
+      //     idparticipant:
+      //       responseGroup1 && responseGroup1.toJSON()
+      //         ? responseGroup1.toJSON().idparticipant
+      //         : "",
+      //   },
+      // });
+      // const responseInstitution2 = await Participant.findOne({
+      //   attributes: ["idparticipant", "idinstitution"],
+      //   where: {
+      //     idparticipant:
+      //       responseGroup2 && responseGroup2.toJSON()
+      //         ? responseGroup2.toJSON().idparticipant
+      //         : "",
+      //   },
+      // });
       matchModificado.insitutionId1 = responseInstitution1;
       matchModificado.insitutionId2 = responseInstitution2;
       matchModificado.institucionGroup1 = responseGroup1;
       matchModificado.institucionGroup2 = responseGroup2;
+      matchModificado.periods = responsePerd;
       // matchModificado.periods = responsePerd
 
       return matchModificado;

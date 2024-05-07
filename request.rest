@@ -86,3 +86,6 @@ GET http://localhost:8500/me
 
 ###
 DELETE http://localhost:8500/logout
+
+###
+GET http://localhost:8500/matches/44
