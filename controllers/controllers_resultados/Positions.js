@@ -14,6 +14,7 @@ export const getPositionByPhase = async (req, res) => {
         "abrev",
         "nrofecha",
         "idfecha",
+        "image_path",
 
         "pts",
         "pj",

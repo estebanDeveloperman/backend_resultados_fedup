@@ -68,12 +68,14 @@ export const createChampionship = async (req, res) => {
   const { idchampionship, name, startdate, enddate, place, period, logo_path } =
     req.body;
   try {
-    const existingChampionship = await Championship.findOne({ idchampionship });
-
-    if (existingChampionship) {
-      return res
-        .status(400)
-        .json({ msg: "Ya creaste este campeonato" });
+    const response = await Championship.findOne({
+      attributes: ["idchampionship"],
+      where: {
+        idchampionship: idchampionship,
+      },
+    });
+    if (response) {
+      return res.status(400).json({ msg: "Ya creaste este campeonato" });
     }
 
     await Championship.create({

@@ -96,18 +96,15 @@ export const createCategory = async (req, res) => {
   const { name, acronym, quantity, logo_path, idchampionship, idsport } =
     req.body;
   try {
-    const categoryId = await Category.findOne({
-      attributes: ["idsport"],
+    const response = await Category.findOne({
+      attributes: ["idchampionship", "idsport"],
       where: {
         idchampionship: idchampionship,
         idsport: idsport,
       },
     });
-
-    if (categoryId) {
-      return res.status(400).json({
-        msg: "Ya existe esta categoría en este campeonato",
-      });
+    if (response) {
+      return res.status(400).json({ msg: "Ya creaste esta categoria" });
     }
 
     const newCategory = await Category.create({
