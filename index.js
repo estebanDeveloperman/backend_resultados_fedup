@@ -21,6 +21,7 @@ import MatchRoute from "./routes/routes_fase/MatchRoute.js";
 import PeriodRoute from "./routes/routes_fase/PeriodRoute.js";
 import ResultRoute from "./routes/routes_resultados/ResultRoute.js";
 import PositionRoute from "./routes/routes_resultados/PositionRoute.js";
+import GroupConfigRoute from "./routes/routes_fase/GroupsConfigRoute.js"
 
 // api
 import PositionApiRoute from "./routes/routes_api/PositionApiRoute.js";
@@ -39,9 +40,9 @@ const store = new sessionStore({
   db: db,
 });
 
-// (async () => {
-//    await db.sync();
-//  })();
+(async () => {
+   await db.sync();
+ })();
 
 // codigo para produccion
 app.use(
@@ -102,6 +103,7 @@ app.use(PositionRoute);
 app.use(PositionApiRoute);
 app.use(FechaApiRoute);
 app.use(MatchApiRoute);
+app.use(GroupConfigRoute)
 // store.sync();
 
 app.listen(PORT, () => {
