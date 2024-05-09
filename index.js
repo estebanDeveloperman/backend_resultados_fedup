@@ -40,9 +40,9 @@ const store = new sessionStore({
   db: db,
 });
 
-(async () => {
-   await db.sync();
- })();
+// (async () => {
+//    await db.sync();
+//  })();
 
 // codigo para produccion
 app.use(
