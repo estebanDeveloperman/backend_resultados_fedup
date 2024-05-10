@@ -18,6 +18,7 @@ export const getPositionByPhase = async (req, res) => {
 
         "pts",
         "pj",
+        "pp2_1", // PARTIDOS EMPATADOS
         "pg",
         "wo",
         "pp",
@@ -110,7 +111,7 @@ export const createPosition = async (req, res) => {
 };
 
 export const updatePosition = async (req, res) => {
-  const { nrofecha, idgroup, pts, pj, pg, wo, pp, pf, pe, dp } = req.body;
+  const { nrofecha, idgroup, pts, pj, pg, wo, pp, pf, pe, dp, pp2_1 } = req.body;
 
   try {
     const response = await Position.update(
@@ -123,6 +124,7 @@ export const updatePosition = async (req, res) => {
         pf,
         pe,
         dp,
+        pp2_1
       },
       {
         where: {
