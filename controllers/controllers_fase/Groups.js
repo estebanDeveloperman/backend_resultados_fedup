@@ -1,4 +1,64 @@
+import Category from "../../models/CategoryModel.js";
 import GroupsTable from "../../models/models_fase/GroupsModel.js";
+import Phase from "../../models/PhaseModel.js";
+
+export const getGroupsByAPI = async (req, res) => {
+  const { idevent, idsport } = req.query;
+
+  try {
+    const responseCategory = await Category.findOne({
+      attributes: ["id", "idchampionship", "idsport"],
+      where: {
+        idchampionship: idevent,
+        idsport: idsport,
+      },
+    });
+
+    const responsePhase = await Phase.findAll({
+      attributes: ["idphase", "idchampionship", "idcategory"],
+      where: {
+        idchampionship: idevent,
+        idcategory: responseCategory.id,
+      },
+    });
+    const responseData = responsePhase[0]; // la fase correspondiente
+    const idPhase = responseData.idphase;
+
+    const response = await GroupsTable.findAll({
+      attributes: [
+        "business",
+        "abrev",
+        "groupAsciiLetter",
+        "orderGroup",
+        "denomination",
+        "image_path",
+      ],
+      where: {
+        idphase: idPhase,
+        statusDB: true,
+      },
+    });
+
+    const convertirAsciiALetra = (codigoAscii) => {
+      return String.fromCharCode(codigoAscii);
+    };
+
+    const datosReestructurados2 = reestructurarDatos2(response);
+
+    for (let i = 0; i < datosReestructurados2.length; i++) {
+      for (let j = 0; j < datosReestructurados2[i].data.length; j++) {
+        datosReestructurados2[i].data[j].groupAsciiLetter =
+          convertirAsciiALetra(
+            datosReestructurados2[i].data[j].groupAsciiLetter
+          );
+      }
+    }
+
+    res.status(200).json(datosReestructurados2);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+};
 
 export const getGroupsByPhase = async (req, res) => {
   try {
@@ -52,6 +112,27 @@ const reestructurarDatos = (data) => {
   return grupos;
 };
 // ---->
+const reestructurarDatos2 = (data) => {
+  // Agrupar los datos por groupAsciiLetter y convertir el valor numérico a su equivalente en cadena
+  const grupos = data.reduce((acc, curr) => {
+    const index = String.fromCharCode(curr.groupAsciiLetter); // Convertir el valor numérico a su equivalente en cadena
+    acc[index] = acc[index] || { grupo: index, data: [] }; // Crear un objeto para el grupo si no existe
+    acc[index].data.push(curr); // Agregar el objeto al array de datos del grupo correspondiente
+    return acc;
+  }, {});
+
+  // Convertir el objeto en un array de grupos y ordenar los grupos por la letra
+  const gruposArray = Object.values(grupos).sort((a, b) =>
+    a.grupo.localeCompare(b.grupo)
+  );
+
+  // Ordenar los datos de cada grupo por orderGroup
+  gruposArray.forEach((grupo) => {
+    grupo.data.sort((a, b) => a.orderGroup - b.orderGroup);
+  });
+
+  return gruposArray;
+};
 
 export const createGroups = async (req, res) => {
   const detailData = req.body;

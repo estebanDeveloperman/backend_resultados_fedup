@@ -6,6 +6,7 @@ import {
   updatedFixtureChange,
   updatedFixtureMove,
   updateStatus,
+  getFixturesByAPI,
 } from "../../controllers/controllers_fase/Fixtures.js";
 
 const router = express.Router();
@@ -17,5 +18,7 @@ router.patch("/fixturechange/:id", updatedFixtureChange);
 router.patch("/fixturemove", updatedFixtureMove);
 
 router.patch("/fixturestatus", updateStatus);
+
+router.get("/fixtureapi", getFixturesByAPI);
 
 export default router;

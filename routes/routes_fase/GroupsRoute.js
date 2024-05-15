@@ -5,6 +5,7 @@ import {
   updateGroups,
   updateStatus,
   updateGroupById,
+  getGroupsByAPI,
 } from "../../controllers/controllers_fase/Groups.js";
 
 const router = express.Router();
@@ -15,5 +16,7 @@ router.patch("/group/:id", updateGroupById);
 
 router.patch("/groups", updateGroups);
 router.patch("/groupsstatus", updateStatus);
+
+router.get("/groupsapi", getGroupsByAPI);
 
 export default router;

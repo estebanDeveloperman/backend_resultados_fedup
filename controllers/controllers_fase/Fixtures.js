@@ -1,7 +1,9 @@
 import Fixtures from "../../models/models_fase/FixtureModel.js";
 import GroupsTable from "../../models/models_fase/GroupsModel.js";
 import Sequelize from "sequelize";
-
+import Phase from "../../models/PhaseModel.js";
+import Category from "../../models/CategoryModel.js";
+import { Op } from "sequelize";
 export const updateStatus = async (req, res) => {
   let idphase = req.body.idphase;
   try {
@@ -20,6 +22,109 @@ export const updateStatus = async (req, res) => {
       .json({ msg: "Status del fixture ha sido actualizado correctamente" });
   } catch (error) {
     res.status(400).json({ msg: error.message });
+  }
+};
+
+export const getFixturesByAPI = async (req, res) => {
+  const { idevent, idsport, nrofecha } = req.query;
+
+  const responseCategory = await Category.findOne({
+    attributes: ["id", "idchampionship", "idsport"],
+    where: {
+      idchampionship: idevent,
+      idsport: idsport,
+    },
+  });
+
+  const responsePhase = await Phase.findAll({
+    attributes: ["idphase", "idchampionship", "idcategory"],
+    where: {
+      idchampionship: idevent,
+      idcategory: responseCategory.id,
+    },
+  });
+  const responseData = responsePhase[0]; // la fase correspondiente
+  const idPhase = responseData.idphase;
+
+  try {
+    const response = await Fixtures.findAll({
+      attributes: [
+        "idgroup1",
+        "idgroup2",
+        "orderGroup1",
+        "orderGroup2",
+        "groupAsciiLetter",
+        "dateOrder",
+        "idphase",
+      ],
+      where: {
+        idphase: idPhase,
+        dateOrder: nrofecha !== undefined ? nrofecha : { [Op.ne]: null },
+        statusDB: true,
+      },
+    });
+
+    // response agregar un atributo objeto
+    const responseMapeadoPromises = response.map(async (fixture) => {
+      const fixtureModificado = { ...fixture.toJSON() };
+
+      const responseGroup1 = await GroupsTable.findOne({
+        attributes: [
+          "business",
+          "abrev",
+          "orderGroup",
+          "denomination",
+          "image_path",
+        ],
+        where: {
+          idgroup: fixtureModificado.idgroup1,
+        },
+      });
+      const responseGroup2 = await GroupsTable.findOne({
+        attributes: [
+          "business",
+          "abrev",
+          "orderGroup",
+          "denomination",
+          "image_path",
+        ],
+        where: {
+          idgroup: fixtureModificado.idgroup2,
+        },
+      });
+
+      fixtureModificado.institucion1 = responseGroup1;
+      fixtureModificado.institucion2 = responseGroup2;
+
+      return fixtureModificado;
+    });
+
+    // terminar de ejecutarse las promesas
+    const responseMapeado = await Promise.all(responseMapeadoPromises);
+
+    for (let i = 0; i < responseMapeado.length; i++) {
+      responseMapeado[i].groupAsciiLetter = String.fromCharCode(
+        responseMapeado[i].groupAsciiLetter
+      );
+    }
+
+    // transformarlo
+    // const uniqueGroupAsciiLetters = [
+    //   ...new Set(responseMapeado.map((fixture) => fixture.groupAsciiLetter)),
+    // ];
+    // const separatedFixtures = uniqueGroupAsciiLetters.map(() => []);
+    // responseMapeado.forEach((fixture) => {
+    //   const index = uniqueGroupAsciiLetters.indexOf(fixture.groupAsciiLetter);
+    //   separatedFixtures[index].push(fixture);
+    // });
+
+    // const result = separatedFixtures.map((subarray) =>
+    //   separateByDateOrder(subarray)
+    // );
+
+    res.status(200).json(responseMapeado);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
   }
 };
 
