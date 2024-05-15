@@ -93,8 +93,10 @@ export const getFixturesByAPI = async (req, res) => {
         },
       });
 
-      fixtureModificado.institucion1 = responseGroup1;
-      fixtureModificado.institucion2 = responseGroup2;
+      // fixtureModificado.institucion1 = responseGroup1;
+      // fixtureModificado.institucion2 = responseGroup2;
+
+      fixtureModificado.equipos = [responseGroup1, responseGroup2];
 
       return fixtureModificado;
     });

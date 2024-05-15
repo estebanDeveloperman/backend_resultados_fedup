@@ -182,8 +182,9 @@ export const getMatchesByAPI = async (req, res) => {
         responseGroup2P,
       ]);
 
-      matchModificado.institucion1 = responseGroup1;
-      matchModificado.institucion2 = responseGroup2;
+      // matchModificado.institucion1 = responseGroup1;
+      // matchModificado.institucion2 = responseGroup2;
+      matchModificado.equipos = [responseGroup1, responseGroup2];
 
       return matchModificado;
     });
