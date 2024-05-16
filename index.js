@@ -21,7 +21,7 @@ import MatchRoute from "./routes/routes_fase/MatchRoute.js";
 import PeriodRoute from "./routes/routes_fase/PeriodRoute.js";
 import ResultRoute from "./routes/routes_resultados/ResultRoute.js";
 import PositionRoute from "./routes/routes_resultados/PositionRoute.js";
-import GroupConfigRoute from "./routes/routes_fase/GroupsConfigRoute.js"
+import GroupConfigRoute from "./routes/routes_fase/GroupsConfigRoute.js";
 
 // api
 import PositionApiRoute from "./routes/routes_api/PositionApiRoute.js";
@@ -79,7 +79,7 @@ app.use(
   cors({
     credentials: true,
     // origin: "http://localhost:3000",
-    origin: "*",
+    origin: ["https://winscore.perufedup.com", "https://sisdeu.perufedup.com"],
     methods: ["POST", "GET", "DELETE", "PUT", "PATCH"],
   })
 );
@@ -103,7 +103,7 @@ app.use(PositionRoute);
 app.use(PositionApiRoute);
 app.use(FechaApiRoute);
 app.use(MatchApiRoute);
-app.use(GroupConfigRoute)
+app.use(GroupConfigRoute);
 // store.sync();
 
 app.listen(PORT, () => {
