@@ -59,6 +59,22 @@ const Championship = db.define(
         len: [1, 256],
       },
     },
+    iddistrito: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    distrito: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    idregion: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    region: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    }
   },
   {
     // freezeTableName: true,

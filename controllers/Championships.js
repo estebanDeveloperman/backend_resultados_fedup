@@ -11,6 +11,10 @@ export const getChampionships = async (req, res) => {
         "place",
         "period",
         "logo_path",
+        "iddistrito",
+        "distrito",
+        "idregion",
+        "region",
       ],
     });
     res.status(200).json(response);
