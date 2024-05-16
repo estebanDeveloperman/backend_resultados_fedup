@@ -1,5 +1,15 @@
 import Phase from "../models/PhaseModel.js";
 
+export const getFechas = async (req, res) => {
+  const { idevent, idsport } = req.query;
+
+  const response = {
+    nrofechas: 5,
+  };
+
+  res.status(200).json(response);
+};
+
 export const getPhases = async (req, res) => {
   const { championship, category } = req.query;
   try {
