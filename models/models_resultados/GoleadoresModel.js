@@ -28,7 +28,7 @@ const Goleadores = db.define("goleadores", {
     allowNull: true,
   },
   elofide: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.STRING(15),
     allowNull: true,
   },
   business: {
@@ -44,11 +44,11 @@ const Goleadores = db.define("goleadores", {
     allowNull: true,
   },
   points: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
   idperson: {
-    type: DataTypes.STRING(64),
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
   docnumber: {

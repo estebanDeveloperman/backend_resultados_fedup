@@ -1,6 +1,8 @@
 import Goleadores from "../../models/models_resultados/GoleadoresModel.js";
+import { Op } from "sequelize";
+
 export const getGoleadoresByPhase = async (req, res) => {
-  const { idphase } = req.query;
+  const { idphase, nrofecha } = req.query;
   try {
     const response = await Goleadores.findAll({
       attributes: [
@@ -14,13 +16,17 @@ export const getGoleadoresByPhase = async (req, res) => {
         "image_path",
         "points",
         "idperson",
+        "docnumber",
         "idsport",
+        "iduni",
+        "idchampionship",
         "idphase",
         "parametro1",
         "parametro2",
       ],
       where: {
         idphase: idphase,
+        nrofecha: nrofecha !== undefined ? nrofecha : { [Op.ne]: null },
       },
     });
     res.status(200).json(response);
@@ -39,4 +45,3 @@ export const createGoleadores = async (req, res) => {
     res.status(400).json({ msg: error.message });
   }
 };
-
