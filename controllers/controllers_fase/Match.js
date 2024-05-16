@@ -135,6 +135,8 @@ export const getMatchesByAPI = async (req, res) => {
         "uniform1",
         "uniform2",
         "campus",
+        "resultado1",
+        "resultado2",
       ],
       where: {
         idphase: idPhase,
