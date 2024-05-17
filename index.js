@@ -24,7 +24,7 @@ import PositionRoute from "./routes/routes_resultados/PositionRoute.js";
 import GroupConfigRoute from "./routes/routes_fase/GroupsConfigRoute.js";
 import GoleadoresRoute from "./routes/routes_resultados/GoleadoresRoute.js";
 import EscenarioRoute from "./routes/EscenarioRoute.js";
-
+import SancionadoRoute from "./routes/routes_resultados/SancionesRoute.js";
 // api
 import PositionApiRoute from "./routes/routes_api/PositionApiRoute.js";
 import FechaApiRoute from "./routes/routes_api/FechaRouteApi.js";
@@ -42,9 +42,9 @@ const store = new sessionStore({
   db: db,
 });
 
-// (async () => {
-//    await db.sync();
-//  })();
+(async () => {
+   await db.sync();
+ })();
 
 // codigo para produccion
 app.use(
@@ -109,6 +109,7 @@ app.use(MatchApiRoute);
 app.use(GroupConfigRoute);
 app.use(GoleadoresRoute);
 app.use(EscenarioRoute);
+app.use(SancionadoRoute);
 // store.sync();
 
 app.listen(PORT, () => {

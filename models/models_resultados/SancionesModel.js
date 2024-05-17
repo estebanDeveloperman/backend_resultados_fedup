@@ -5,8 +5,8 @@ import Phase from "../PhaseModel.js";
 
 const { DataTypes } = Sequelize;
 
-const Goleadores = db.define("goleadores", {
-  idgoleador: {
+const Sancionado = db.define("sancionados", {
+  idsancionado: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
@@ -15,6 +15,10 @@ const Goleadores = db.define("goleadores", {
       notEmpty: true,
     },
   },
+  idtarjeta: { type: DataTypes.INTEGER, allowNull: true },
+  nombre_tarjeta: { type: DataTypes.STRING(128), allowNull: true },
+  abrev_tarjeta: { type: DataTypes.STRING(64), allowNull: true },
+  fechassuspendido: { type: DataTypes.INTEGER, allowNull: true },
   nrofecha: {
     type: DataTypes.INTEGER,
     allowNull: true,
@@ -59,10 +63,6 @@ const Goleadores = db.define("goleadores", {
     type: DataTypes.STRING(255),
     allowNull: true,
   },
-  points: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-  },
   idperson: {
     type: DataTypes.INTEGER,
     allowNull: true,
@@ -94,7 +94,7 @@ const Goleadores = db.define("goleadores", {
   },
 });
 
-Phase.hasMany(Goleadores);
-Goleadores.belongsTo(Phase, { foreignKey: "idphase" });
+Phase.hasMany(Sancionado);
+Sancionado.belongsTo(Phase, { foreignKey: "idphase" });
 
-export default Goleadores;
+export default Sancionado;

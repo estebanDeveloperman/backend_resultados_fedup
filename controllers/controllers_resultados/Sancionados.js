@@ -1,10 +1,10 @@
-import Goleadores from "../../models/models_resultados/GoleadoresModel.js";
+import Sancionado from "../../models/models_resultados/SancionesModel.js";
 import { Op } from "sequelize";
 
-export const getGoleadoresByPhase = async (req, res) => {
+export const getSancionadoByPhase = async (req, res) => {
   const { idphase, nrofecha } = req.query;
   try {
-    const response = await Goleadores.findAll({
+    const response = await Sancionado.findAll({
       attributes: [
         "idgoleador",
         "nrofecha",
@@ -19,13 +19,17 @@ export const getGoleadoresByPhase = async (req, res) => {
         "business",
         "abrev",
         "image_path",
-        "points",
         "idperson",
         "docnumber",
         "idsport",
         "iduni",
         "idchampionship",
         "idphase",
+
+        "idtarjeta",
+        "nombre_tarjeta",
+        "abrev_tarjeta",
+        "fechassuspendido",
 
         "parametro1",
         "parametro2",
@@ -41,11 +45,11 @@ export const getGoleadoresByPhase = async (req, res) => {
   }
 };
 
-export const createGoleadores = async (req, res) => {
+export const createSancionados = async (req, res) => {
   const detailData = req.body;
 
   try {
-    const nuevosDetails = await Goleadores.bulkCreate(detailData);
+    const nuevosDetails = await Sancionado.bulkCreate(detailData);
     res.status(201).json(nuevosDetails);
   } catch (error) {
     res.status(400).json({ msg: error.message });
