@@ -21,6 +21,8 @@ export const getParticipantsByPhase = async (req, res) => {
         "business",
         "abrev",
         "image_path",
+        "pais",
+        "bandera"
       ],
       where: {
         idphase: phase,

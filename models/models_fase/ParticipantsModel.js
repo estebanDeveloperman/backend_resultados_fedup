@@ -67,6 +67,14 @@ const Participant = db.define(
       type: DataTypes.STRING(255),
       allowNull: true,
     },
+    pais: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    bandera: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
   },
   {
     // freezeTableName: true

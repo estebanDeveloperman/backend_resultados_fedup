@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import db from "../../config/Database.js"
+import db from "../../config/Database.js";
 
 import Phase from "../PhaseModel.js";
 
@@ -53,6 +53,14 @@ const GroupsTable = db.define(
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: true,
+    },
+    pais: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    bandera: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
     },
   },
   {

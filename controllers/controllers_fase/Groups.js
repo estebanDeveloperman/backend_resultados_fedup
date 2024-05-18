@@ -32,6 +32,8 @@ export const getGroupsByAPI = async (req, res) => {
         "orderGroup",
         "denomination",
         "image_path",
+        "pais",
+        "bandera"
       ],
       where: {
         idphase: idPhase,
@@ -73,6 +75,8 @@ export const getGroupsByPhase = async (req, res) => {
         "orderGroup",
         "denomination",
         "image_path",
+        "pais",
+        "bandera"
       ],
       where: {
         idphase: req.params.idphase,
