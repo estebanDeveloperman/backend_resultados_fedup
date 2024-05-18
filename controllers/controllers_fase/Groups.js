@@ -33,7 +33,7 @@ export const getGroupsByAPI = async (req, res) => {
         "denomination",
         "image_path",
         "pais",
-        "bandera"
+        "bandera",
       ],
       where: {
         idphase: idPhase,
@@ -62,6 +62,42 @@ export const getGroupsByAPI = async (req, res) => {
   }
 };
 
+// export const getGroupsByPhase = async (req, res) => {
+//   try {
+//     const response = await GroupsTable.findAll({
+//       attributes: [
+//         "idgroup",
+//         "idphase",
+//         "idparticipant",
+//         "business",
+//         "abrev",
+//         "groupAsciiLetter",
+//         "orderGroup",
+//         "denomination",
+//         "image_path",
+//         "pais",
+//         "bandera"
+//       ],
+//       where: {
+//         idphase: req.params.idphase,
+//         statusDB: true,
+//       },
+//     });
+//     // console.log(response)
+//     if (response.length === 0) {
+//       res.status(204).send();
+//       return;
+//     }
+
+//     // restructurar los datos segun el grupo y el orden
+//     const datosReestructurados = reestructurarDatos(response);
+
+//     res.status(200).json(datosReestructurados);
+//   } catch (error) {
+//     res.status(500).json({ msg: error.message });
+//   }
+// };
+
 export const getGroupsByPhase = async (req, res) => {
   try {
     const response = await GroupsTable.findAll({
@@ -76,21 +112,31 @@ export const getGroupsByPhase = async (req, res) => {
         "denomination",
         "image_path",
         "pais",
-        "bandera"
+        "bandera",
       ],
       where: {
         idphase: req.params.idphase,
         statusDB: true,
       },
     });
-    // console.log(response)
+
     if (response.length === 0) {
       res.status(204).send();
       return;
     }
 
-    // restructurar los datos segun el grupo y el orden
-    const datosReestructurados = reestructurarDatos(response);
+    // Añadir la URL base a los atributos image_path y bandera
+    const urlBase = "https://winscore.perufedup.com";
+    const updatedResponse = response.map((item) => {
+      return {
+        ...item.dataValues,
+        image_path: urlBase + item.dataValues.image_path,
+        bandera: urlBase + item.dataValues.bandera,
+      };
+    });
+
+    // Reestructurar los datos según el grupo y el orden
+    const datosReestructurados = reestructurarDatos(updatedResponse);
 
     res.status(200).json(datosReestructurados);
   } catch (error) {
