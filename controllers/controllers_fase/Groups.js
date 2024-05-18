@@ -14,6 +14,11 @@ export const getGroupsByAPI = async (req, res) => {
       },
     });
 
+    if (!responseCategory) {
+      res.status(404).json({ msg: "Category not found" });
+      return;
+    }
+
     const responsePhase = await Phase.findAll({
       attributes: ["idphase", "idchampionship", "idcategory"],
       where: {
@@ -21,6 +26,12 @@ export const getGroupsByAPI = async (req, res) => {
         idcategory: responseCategory.id,
       },
     });
+
+    if (responsePhase.length === 0) {
+      res.status(404).json({ msg: "Phase not found" });
+      return;
+    }
+
     const responseData = responsePhase[0]; // la fase correspondiente
     const idPhase = responseData.idphase;
 
@@ -41,11 +52,26 @@ export const getGroupsByAPI = async (req, res) => {
       },
     });
 
+    if (response.length === 0) {
+      res.status(204).send();
+      return;
+    }
+
+    // Añadir la URL base a los atributos image_path y bandera
+    const urlBase = "https://winscore.perufedup.com";
+    const updatedResponse = response.map((item) => {
+      return {
+        ...item.dataValues,
+        image_path: urlBase + item.dataValues.image_path,
+        bandera: urlBase + item.dataValues.bandera,
+      };
+    });
+
     const convertirAsciiALetra = (codigoAscii) => {
       return String.fromCharCode(codigoAscii);
     };
 
-    const datosReestructurados2 = reestructurarDatos2(response);
+    const datosReestructurados2 = reestructurarDatos2(updatedResponse);
 
     for (let i = 0; i < datosReestructurados2.length; i++) {
       for (let j = 0; j < datosReestructurados2[i].data.length; j++) {
