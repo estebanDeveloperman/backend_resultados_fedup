@@ -102,6 +102,105 @@ const getPeriodByMatch = async (idmatch) => {
   }
 };
 
+// export const getMatchesByAPI = async (req, res) => {
+//   const { idevent, idsport, nrofecha } = req.query;
+//   try {
+//     const responseCategory = await Category.findOne({
+//       attributes: ["id", "idchampionship", "idsport"],
+//       where: {
+//         idchampionship: idevent,
+//         idsport: idsport,
+//       },
+//     });
+
+//     const responsePhase = await Phase.findAll({
+//       attributes: ["idphase", "idchampionship", "idcategory"],
+//       where: {
+//         idchampionship: idevent,
+//         idcategory: responseCategory.id,
+//       },
+//     });
+//     const responseData = responsePhase[0]; // la fase correspondiente
+//     const idPhase = responseData.idphase;
+
+//     const response = await Matches.findAll({
+//       attributes: [
+//         "idgroup1",
+//         "idgroup2",
+//         "groupAsciiLetter",
+//         "dateOrder",
+//         "nroMatch",
+//         "dateMatch",
+//         "timeMatch",
+//         "uniform1",
+//         "uniform2",
+//         "campus",
+//         "resultado1",
+//         "resultado2",
+//       ],
+//       where: {
+//         idphase: idPhase,
+//         dateOrder: nrofecha !== undefined ? nrofecha : { [Op.ne]: null },
+//         statusDB: true,
+//       },
+//     });
+//     if (response.length === 0) {
+//       res.status(204).send();
+//       return;
+//     }
+//     for (let i = 0; i < response.length; i++) {
+//       response[i].groupAsciiLetter = String.fromCharCode(
+//         response[i].groupAsciiLetter
+//       );
+//     }
+//     const responseMapeadoPromises = response.map(async (match) => {
+//       const matchModificado = { ...match.toJSON() };
+
+//       const responseGroup1P = await GroupsTable.findOne({
+//         attributes: [
+//           "business",
+//           "abrev",
+//           "orderGroup",
+//           "denomination",
+//           "image_path",
+//         ],
+//         where: {
+//           idgroup: matchModificado.idgroup1,
+//         },
+//       });
+//       const responseGroup2P = await GroupsTable.findOne({
+//         attributes: [
+//           "business",
+//           "abrev",
+//           "orderGroup",
+//           "denomination",
+//           "image_path",
+//         ],
+//         where: {
+//           idgroup: matchModificado.idgroup2,
+//         },
+//       });
+//       const [responseGroup1, responseGroup2] = await Promise.all([
+//         responseGroup1P,
+//         responseGroup2P,
+//       ]);
+
+//       // matchModificado.institucion1 = responseGroup1;
+//       // matchModificado.institucion2 = responseGroup2;
+//       matchModificado.equipos = [responseGroup1, responseGroup2];
+
+//       return matchModificado;
+//     });
+//     // terminar de ejecutar las promesas
+//     const responseMapeado = await Promise.all(responseMapeadoPromises);
+
+//     // console.log(responseMapeado);
+//     res.status(200).json(responseMapeado);
+//   } catch (error) {
+//     res.status(500).json({ msg: error.message });
+//   }
+// };
+
 export const getMatchesByAPI = async (req, res) => {
   const { idevent, idsport, nrofecha } = req.query;
   try {
@@ -185,16 +284,22 @@ export const getMatchesByAPI = async (req, res) => {
         responseGroup2P,
       ]);
 
-      // matchModificado.institucion1 = responseGroup1;
-      // matchModificado.institucion2 = responseGroup2;
+      // Agregar el prefijo al campo image_path
+      if (responseGroup1) {
+        responseGroup1.image_path = `https://winscore.perufedup.com/${responseGroup1.image_path}`;
+      }
+      if (responseGroup2) {
+        responseGroup2.image_path = `https://winscore.perufedup.com/${responseGroup2.image_path}`;
+      }
+
       matchModificado.equipos = [responseGroup1, responseGroup2];
 
       return matchModificado;
     });
-    // terminar de ejecutar las promesas
+
+    // Terminar de ejecutar las promesas
     const responseMapeado = await Promise.all(responseMapeadoPromises);
 
-    // console.log(responseMapeado);
     res.status(200).json(responseMapeado);
   } catch (error) {
     res.status(500).json({ msg: error.message });
