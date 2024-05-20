@@ -57,21 +57,7 @@ export const getGroupsByAPI = async (req, res) => {
       return;
     }
 
-    // Añadir la URL base a los atributos image_path y bandera
-    const urlBase = "https://winscore.perufedup.com";
-    const updatedResponse = response.map((item) => {
-      return {
-        ...item.dataValues,
-        image_path: urlBase + item.dataValues.image_path,
-        bandera: urlBase + item.dataValues.bandera,
-      };
-    });
-
-    const convertirAsciiALetra = (codigoAscii) => {
-      return String.fromCharCode(codigoAscii);
-    };
-
-    const datosReestructurados2 = reestructurarDatos2(updatedResponse);
+    const datosReestructurados2 = reestructurarDatos2(response);
 
     for (let i = 0; i < datosReestructurados2.length; i++) {
       for (let j = 0; j < datosReestructurados2[i].data.length; j++) {
@@ -151,18 +137,8 @@ export const getGroupsByPhase = async (req, res) => {
       return;
     }
 
-    // Añadir la URL base a los atributos image_path y bandera
-    const urlBase = "https://winscore.perufedup.com";
-    const updatedResponse = response.map((item) => {
-      return {
-        ...item.dataValues,
-        image_path: urlBase + item.dataValues.image_path,
-        bandera: urlBase + item.dataValues.bandera,
-      };
-    });
-
     // Reestructurar los datos según el grupo y el orden
-    const datosReestructurados = reestructurarDatos(updatedResponse);
+    const datosReestructurados = reestructurarDatos(response);
 
     res.status(200).json(datosReestructurados);
   } catch (error) {

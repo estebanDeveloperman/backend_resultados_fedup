@@ -284,14 +284,6 @@ export const getMatchesByAPI = async (req, res) => {
         responseGroup2P,
       ]);
 
-      // Agregar el prefijo al campo image_path
-      if (responseGroup1) {
-        responseGroup1.image_path = `https://winscore.perufedup.com/${responseGroup1.image_path}`;
-      }
-      if (responseGroup2) {
-        responseGroup2.image_path = `https://winscore.perufedup.com/${responseGroup2.image_path}`;
-      }
-
       matchModificado.equipos = [responseGroup1, responseGroup2];
 
       return matchModificado;
