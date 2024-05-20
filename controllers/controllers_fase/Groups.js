@@ -57,6 +57,10 @@ export const getGroupsByAPI = async (req, res) => {
       return;
     }
 
+    const convertirAsciiALetra = (codigoAscii) => {
+      return String.fromCharCode(codigoAscii);
+    };
+
     const datosReestructurados2 = reestructurarDatos2(response);
 
     for (let i = 0; i < datosReestructurados2.length; i++) {
