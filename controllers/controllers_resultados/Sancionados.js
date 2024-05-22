@@ -6,7 +6,7 @@ export const getSancionadoByPhase = async (req, res) => {
   try {
     const response = await Sancionado.findAll({
       attributes: [
-        "idgoleador",
+        "idsancionado",
         "nrofecha",
         "photo",
 

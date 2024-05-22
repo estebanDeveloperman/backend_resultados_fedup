@@ -61,6 +61,7 @@ export const getMatchById = async (req, res) => {
         "fecha",
         "idphase",
         "parametro1",
+        "parametro2",
       ],
       where: {
         idmatch: match.idmatch,
@@ -326,6 +327,7 @@ export const getMatchesByPhase = async (req, res) => {
         "fecha",
         "idphase",
         "parametro1",
+        "parametro2",
       ],
       where: {
         idphase: req.params.idphase,
@@ -460,6 +462,7 @@ export const getMatchesByNroDate = async (req, res) => {
         "fecha",
         "idphase",
         "parametro1",
+        "parametro2",
       ],
       where: {
         idphase: idphase,
@@ -508,6 +511,7 @@ export const updateMatch = async (req, res) => {
     fecha,
     flagConfirmado,
     parametro1,
+    parametro2,
   } = req.body;
   try {
     const response = await Matches.update(
@@ -527,6 +531,7 @@ export const updateMatch = async (req, res) => {
         fecha: fecha,
         flagConfirmado: flagConfirmado,
         parametro1,
+        parametro2,
       },
       {
         where: {
