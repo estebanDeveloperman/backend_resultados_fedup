@@ -1,14 +1,70 @@
 import Phase from "../models/PhaseModel.js";
+import Fixtures from "../models/models_fase/FixtureModel.js";
+import Category from "../models/CategoryModel.js";
 
 export const getFechas = async (req, res) => {
   const { idevent, idsport } = req.query;
 
-  const response = {
-    nrofechas: 5,
+  const responseCategory = await Category.findOne({
+    attributes: ["id", "idchampionship", "idsport"],
+    where: {
+      idchampionship: idevent,
+      idsport: idsport,
+    },
+  });
+
+  const responsePhase = await Phase.findAll({
+    attributes: ["idphase", "idchampionship", "idcategory"],
+    where: {
+      idchampionship: idevent,
+      idcategory: responseCategory.id,
+    },
+  });
+  const responseData = responsePhase[0]; // la fase correspondiente
+  const idPhase = responseData.idphase;
+
+  const response = await Fixtures.findAll({
+    attributes: ["idfixture", "dateOrder", "idphase"],
+    where: {
+      idphase: idPhase,
+      statusDB: true,
+    },
+  });
+
+  const uniqueGroupAsciiLetters = [
+    ...new Set(response.map((fixture) => fixture.groupAsciiLetter)),
+  ];
+  const separatedFixtures = uniqueGroupAsciiLetters.map(() => []);
+  response.forEach((fixture) => {
+    const index = uniqueGroupAsciiLetters.indexOf(fixture.groupAsciiLetter);
+    separatedFixtures[index].push(fixture);
+  });
+
+  const result = separatedFixtures.map((subarray) =>
+    separateByDateOrder(subarray)
+  );
+
+  const responseF = {
+    nrofechas: Math.max(...result.map((subarray) => subarray.length)),
   };
 
-  res.status(200).json(response);
+  res.status(200).json(responseF);
 };
+
+function separateByDateOrder(fixtures) {
+  const separatedByDateOrder = {};
+
+  fixtures.forEach((fixture) => {
+    const dateOrder = fixture.dateOrder;
+
+    if (!separatedByDateOrder[dateOrder]) {
+      separatedByDateOrder[dateOrder] = [];
+    }
+    separatedByDateOrder[dateOrder].push(fixture);
+  });
+
+  return Object.values(separatedByDateOrder);
+}
 
 export const getPhases = async (req, res) => {
   const { championship, category } = req.query;
