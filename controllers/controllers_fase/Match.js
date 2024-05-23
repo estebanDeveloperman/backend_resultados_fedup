@@ -263,6 +263,8 @@ export const getMatchesByAPI = async (req, res) => {
           "orderGroup",
           "denomination",
           "image_path",
+          "pais",
+          "bandera",
         ],
         where: {
           idgroup: matchModificado.idgroup1,
@@ -275,6 +277,8 @@ export const getMatchesByAPI = async (req, res) => {
           "orderGroup",
           "denomination",
           "image_path",
+          "pais",
+          "bandera",
         ],
         where: {
           idgroup: matchModificado.idgroup2,
