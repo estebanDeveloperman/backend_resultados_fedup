@@ -15,6 +15,10 @@ const Goleadores = db.define("goleadores", {
       notEmpty: true,
     },
   },
+  idmatch: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
   nrofecha: {
     type: DataTypes.INTEGER,
     allowNull: true,

@@ -7,6 +7,7 @@ export const getGoleadoresByPhase = async (req, res) => {
     const response = await Goleadores.findAll({
       attributes: [
         "idgoleador",
+        "idmatch",
         "nrofecha",
         "photo",
 
