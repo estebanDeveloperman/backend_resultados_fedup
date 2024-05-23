@@ -391,6 +391,87 @@ export const updatedFixtureMove = async (req, res) => {
   res.status(200).json({ msg: "Actualizado con exito" });
 };
 
+export const updatedFixtureSwap = async (req, res) => {
+  const { dataFixtureFecha1, dataFixtureFecha2 } = req.body;
+
+  const extractRelevantData = (data) => {
+    return data.map(
+      ({
+        idfixture,
+        idgroup1,
+        idgroup2,
+        idparticipant1,
+        idparticipant2,
+        orderGroup1,
+        orderGroup2,
+        dateOrder,
+      }) => ({
+        idfixture,
+        idgroup1,
+        idgroup2,
+        idparticipant1,
+        idparticipant2,
+        orderGroup1,
+        orderGroup2,
+        dateOrder,
+      })
+    );
+  };
+
+  const filteredData1 = extractRelevantData(dataFixtureFecha1);
+  const filteredData2 = extractRelevantData(dataFixtureFecha2);
+
+  // Aquí intercambiamos los datos
+  for (let i = 0; i < filteredData1.length; i++) {
+    const fixture1 = filteredData1[i];
+    const fixture2 = filteredData2[i];
+
+    try {
+      // Actualizar el fixture1 con los datos del fixture2
+      await Fixtures.update(
+        {
+          idparticipant1: fixture2.idparticipant1,
+          idparticipant2: fixture2.idparticipant2,
+          idgroup1: fixture2.idgroup1,
+          idgroup2: fixture2.idgroup2,
+          orderGroup1: fixture2.orderGroup1,
+          orderGroup2: fixture2.orderGroup2,
+        },
+        {
+          where: {
+            idfixture: fixture1.idfixture,
+          },
+        }
+      );
+
+      // Actualizar el fixture2 con los datos del fixture1
+      await Fixtures.update(
+        {
+          idparticipant1: fixture1.idparticipant1,
+          idparticipant2: fixture1.idparticipant2,
+          idgroup1: fixture1.idgroup1,
+          idgroup2: fixture1.idgroup2,
+          orderGroup1: fixture1.orderGroup1,
+          orderGroup2: fixture1.orderGroup2,
+        },
+        {
+          where: {
+            idfixture: fixture2.idfixture,
+          },
+        }
+      );
+    } catch (error) {
+      console.error(
+        `Error al actualizar los fixtures ${fixture1.idfixture} y ${fixture2.idfixture}:`,
+        error
+      );
+      return res.status(500).json({ msg: "Error al actualizar los fixtures" });
+    }
+  }
+
+  res.status(200).json({ msg: "Actualizado con éxito" });
+};
+
 ///////////////////////////////////////////////////////////////////////////////////>>>>>>>>>>>>>>>>>>><
 
 function convertirDatos(datos) {
