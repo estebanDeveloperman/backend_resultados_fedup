@@ -29,7 +29,6 @@ import SancionadoRoute from "./routes/routes_resultados/SancionesRoute.js";
 import PositionApiRoute from "./routes/routes_api/PositionApiRoute.js";
 import FechaApiRoute from "./routes/routes_api/FechaRouteApi.js";
 import MatchApiRoute from "./routes/routes_api/MatchesRouteApi.js";
-
 import { PORT } from "./config.js";
 
 // configuraciones

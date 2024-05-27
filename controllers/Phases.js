@@ -3,52 +3,70 @@ import Fixtures from "../models/models_fase/FixtureModel.js";
 import Category from "../models/CategoryModel.js";
 
 export const getFechas = async (req, res) => {
-  const { idevent, idsport } = req.query;
+  try {
+    const { idevent, idsport } = req.query;
 
-  const responseCategory = await Category.findOne({
-    attributes: ["id", "idchampionship", "idsport"],
-    where: {
-      idchampionship: idevent,
-      idsport: idsport,
-    },
-  });
+    const responseCategory = await Category.findOne({
+      attributes: ["id", "idchampionship", "idsport"],
+      where: {
+        idchampionship: idevent,
+        idsport: idsport,
+      },
+    });
 
-  const responsePhase = await Phase.findAll({
-    attributes: ["idphase", "idchampionship", "idcategory"],
-    where: {
-      idchampionship: idevent,
-      idcategory: responseCategory.id,
-    },
-  });
-  const responseData = responsePhase[0]; // la fase correspondiente
-  const idPhase = responseData.idphase;
+    if (!responseCategory) {
+      return res.status(404).json({ error: "Category not found" });
+    }
 
-  const response = await Fixtures.findAll({
-    attributes: ["idfixture", "dateOrder", "idphase"],
-    where: {
-      idphase: idPhase,
-      statusDB: true,
-    },
-  });
+    const responsePhase = await Phase.findAll({
+      attributes: ["idphase", "idchampionship", "idcategory"],
+      where: {
+        idchampionship: idevent,
+        idcategory: responseCategory.id,
+      },
+    });
 
-  const uniqueGroupAsciiLetters = [
-    ...new Set(response.map((fixture) => fixture.groupAsciiLetter)),
-  ];
-  const separatedFixtures = uniqueGroupAsciiLetters.map(() => []);
-  response.forEach((fixture) => {
-    const index = uniqueGroupAsciiLetters.indexOf(fixture.groupAsciiLetter);
-    separatedFixtures[index].push(fixture);
-  });
+    if (!responsePhase.length) {
+      return res.status(404).json({ error: "Phase not found" });
+    }
 
-  const result = separatedFixtures.map((subarray) =>
-    separateByDateOrder(subarray)
-  );
+    const responseData = responsePhase[0]; // la fase correspondiente
+    const idPhase = responseData.idphase;
 
-  const responseF = {
-    nrofechas: Math.max(...result.map((subarray) => subarray.length)),
-  };
+    const response = await Fixtures.findAll({
+      attributes: ["idfixture", "dateOrder", "idphase", "groupAsciiLetter"],
+      where: {
+        idphase: idPhase,
+        statusDB: true,
+      },
+    });
 
-  res.status(200).json(responseF);
+    if (!response.length) {
+      return res.status(404).json({ error: "Fixtures not found" });
+    }
+
+    const uniqueGroupAsciiLetters = [
+      ...new Set(response.map((fixture) => fixture.groupAsciiLetter)),
+    ];
+    const separatedFixtures = uniqueGroupAsciiLetters.map(() => []);
+    response.forEach((fixture) => {
+      const index = uniqueGroupAsciiLetters.indexOf(fixture.groupAsciiLetter);
+      separatedFixtures[index].push(fixture);
+    });
+
+    const result = separatedFixtures.map((subarray) =>
+      separateByDateOrder(subarray)
+    );
+
+    const responseF = {
+      nrofechas: Math.max(...result.map((subarray) => subarray.length)),
+    };
+
+    res.status(200).json(responseF);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 };
 
 function separateByDateOrder(fixtures) {
