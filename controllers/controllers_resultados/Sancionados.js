@@ -35,8 +35,7 @@ export const getSancionadosByMatch = async (req, res) => {
         "fechassuspendido",
 
         "parametro1",
-        "parametro2",
-        "color_letra",
+        "parametro2"
       ],
       where: {
         idmatch: idmatch,
@@ -83,7 +82,6 @@ export const getSancionadoByPhase = async (req, res) => {
 
         "parametro1",
         "parametro2",
-        "color_letra",
       ],
       where: {
         idphase: idphase,

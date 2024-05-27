@@ -27,10 +27,6 @@ const Sancionado = db.define("sancionados", {
     type: DataTypes.STRING(64),
     allowNull: true,
   },
-  color_letra: {
-    type: DataTypes.STRING(50),
-    allowNull: true,
-  },
   idtarjeta: { type: DataTypes.INTEGER, allowNull: true },
   nombre_tarjeta: { type: DataTypes.STRING(128), allowNull: true },
   abrev_tarjeta: { type: DataTypes.STRING(64), allowNull: true },
