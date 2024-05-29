@@ -220,8 +220,18 @@ export const getMatchesByAPI = async (req, res) => {
         idcategory: responseCategory.id,
       },
     });
-    const responseData = responsePhase[0]; // la fase correspondiente
-    const idPhase = responseData.idphase;
+
+    let idPhases = [responsePhase[0].idphase]; // fase correspondiente
+    let additionalPhaseCondition = false;
+
+    if (
+      idevent === 192 &&
+      idsport === 5 &&
+      (nrofecha === 4 || nrofecha === 5)
+    ) {
+      idPhases = [responsePhase[0].idphase, responsePhase[1].idphase];
+      additionalPhaseCondition = true;
+    }
 
     const response = await Matches.findAll({
       attributes: [
@@ -239,22 +249,37 @@ export const getMatchesByAPI = async (req, res) => {
         "resultado2",
       ],
       where: {
-        idphase: idPhase,
+        idphase: idPhases,
         dateOrder: nrofecha !== undefined ? nrofecha : { [Op.ne]: null },
         statusDB: true,
       },
     });
+
     if (response.length === 0) {
       res.status(204).send();
       return;
     }
-    for (let i = 0; i < response.length; i++) {
-      response[i].groupAsciiLetter = String.fromCharCode(
-        response[i].groupAsciiLetter
-      );
-    }
-    const responseMapeadoPromises = response.map(async (match) => {
+
+    const modifiedResponse = response.map((match) => {
       const matchModificado = { ...match.toJSON() };
+
+      // Modificar dateOrder para partidos de responsePhase[1]
+      if (
+        additionalPhaseCondition &&
+        match.idphase === responsePhase[1].idphase
+      ) {
+        matchModificado.dateOrder += 3;
+      }
+
+      matchModificado.groupAsciiLetter = String.fromCharCode(
+        matchModificado.groupAsciiLetter
+      );
+
+      return matchModificado;
+    });
+
+    const responseMapeadoPromises = modifiedResponse.map(async (match) => {
+      const matchModificado = { ...match };
 
       const responseGroup1P = await GroupsTable.findOne({
         attributes: [
@@ -270,6 +295,7 @@ export const getMatchesByAPI = async (req, res) => {
           idgroup: matchModificado.idgroup1,
         },
       });
+
       const responseGroup2P = await GroupsTable.findOne({
         attributes: [
           "business",
@@ -284,6 +310,7 @@ export const getMatchesByAPI = async (req, res) => {
           idgroup: matchModificado.idgroup2,
         },
       });
+
       const [responseGroup1, responseGroup2] = await Promise.all([
         responseGroup1P,
         responseGroup2P,
@@ -302,6 +329,107 @@ export const getMatchesByAPI = async (req, res) => {
     res.status(500).json({ msg: error.message });
   }
 };
+
+// export const getMatchesByAPI = async (req, res) => {
+//   const { idevent, idsport, nrofecha } = req.query;
+//   try {
+//     const responseCategory = await Category.findOne({
+//       attributes: ["id", "idchampionship", "idsport"],
+//       where: {
+//         idchampionship: idevent,
+//         idsport: idsport,
+//       },
+//     });
+
+//     const responsePhase = await Phase.findAll({
+//       attributes: ["idphase", "idchampionship", "idcategory"],
+//       where: {
+//         idchampionship: idevent,
+//         idcategory: responseCategory.id,
+//       },
+//     });
+//     const responseData = responsePhase[0]; // la fase correspondiente
+//     const idPhase = responseData.idphase;
+
+//     const response = await Matches.findAll({
+//       attributes: [
+//         "idgroup1",
+//         "idgroup2",
+//         "groupAsciiLetter",
+//         "dateOrder",
+//         "nroMatch",
+//         "dateMatch",
+//         "timeMatch",
+//         "uniform1",
+//         "uniform2",
+//         "campus",
+//         "resultado1",
+//         "resultado2",
+//       ],
+//       where: {
+//         idphase: idPhase,
+//         dateOrder: nrofecha !== undefined ? nrofecha : { [Op.ne]: null },
+//         statusDB: true,
+//       },
+//     });
+//     if (response.length === 0) {
+//       res.status(204).send();
+//       return;
+//     }
+//     for (let i = 0; i < response.length; i++) {
+//       response[i].groupAsciiLetter = String.fromCharCode(
+//         response[i].groupAsciiLetter
+//       );
+//     }
+//     const responseMapeadoPromises = response.map(async (match) => {
+//       const matchModificado = { ...match.toJSON() };
+
+//       const responseGroup1P = await GroupsTable.findOne({
+//         attributes: [
+//           "business",
+//           "abrev",
+//           "orderGroup",
+//           "denomination",
+//           "image_path",
+//           "pais",
+//           "bandera",
+//         ],
+//         where: {
+//           idgroup: matchModificado.idgroup1,
+//         },
+//       });
+//       const responseGroup2P = await GroupsTable.findOne({
+//         attributes: [
+//           "business",
+//           "abrev",
+//           "orderGroup",
+//           "denomination",
+//           "image_path",
+//           "pais",
+//           "bandera",
+//         ],
+//         where: {
+//           idgroup: matchModificado.idgroup2,
+//         },
+//       });
+//       const [responseGroup1, responseGroup2] = await Promise.all([
+//         responseGroup1P,
+//         responseGroup2P,
+//       ]);
+
+//       matchModificado.equipos = [responseGroup1, responseGroup2];
+
+//       return matchModificado;
+//     });
+
+//     // Terminar de ejecutar las promesas
+//     const responseMapeado = await Promise.all(responseMapeadoPromises);
+
+//     res.status(200).json(responseMapeado);
+//   } catch (error) {
+//     res.status(500).json({ msg: error.message });
+//   }
+// };
 
 export const getMatchesByPhase = async (req, res) => {
   try {

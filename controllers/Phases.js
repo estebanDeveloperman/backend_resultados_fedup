@@ -6,6 +6,14 @@ export const getFechas = async (req, res) => {
   try {
     const { idevent, idsport } = req.query;
 
+    if (idevent == 192 && idsport == 5) {
+      const responseF = {
+        nrofechas: 5,
+      };
+      res.status(200).json(responseF);
+      return;
+    }
+
     const responseCategory = await Category.findOne({
       attributes: ["id", "idchampionship", "idsport"],
       where: {
@@ -58,7 +66,7 @@ export const getFechas = async (req, res) => {
       separateByDateOrder(subarray)
     );
 
-    const responseF = {
+    let responseF = {
       nrofechas: Math.max(...result.map((subarray) => subarray.length)),
     };
 
