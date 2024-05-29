@@ -142,6 +142,7 @@ export const getFixturesByPhase = async (req, res) => {
         "orderGroup1",
         "orderGroup2",
         "groupAsciiLetter",
+        "groupAsciiLetter1",
         "groupAsciiLetter2",
         "dateOrder",
         "idphase",
