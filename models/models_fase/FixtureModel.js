@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import db from "../../config/Database.js"
+import db from "../../config/Database.js";
 
 import Phase from "../PhaseModel.js";
 
@@ -57,6 +57,10 @@ const Fixtures = db.define(
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: true,
+    },
+    groupAsciiLetter1: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
     groupAsciiLetter2: {
       type: DataTypes.INTEGER,
