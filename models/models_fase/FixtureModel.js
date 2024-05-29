@@ -58,6 +58,10 @@ const Fixtures = db.define(
       allowNull: true,
       defaultValue: true,
     },
+    groupAsciiLetter2: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
   },
   {
     // freezeTableName: true,
