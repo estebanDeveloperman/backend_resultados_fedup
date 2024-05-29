@@ -233,6 +233,15 @@ export const getMatchesByAPI = async (req, res) => {
       additionalPhaseCondition = true;
     }
 
+    const whereConditions = {
+      idphase: idPhases,
+      statusDB: true,
+    };
+
+    if (nrofecha !== undefined) {
+      whereConditions.dateOrder = nrofecha;
+    }
+
     const response = await Matches.findAll({
       attributes: [
         "idgroup1",
@@ -248,11 +257,7 @@ export const getMatchesByAPI = async (req, res) => {
         "resultado1",
         "resultado2",
       ],
-      where: {
-        idphase: idPhases,
-        dateOrder: nrofecha !== undefined ? nrofecha : { [Op.ne]: null },
-        statusDB: true,
-      },
+      where: whereConditions,
     });
 
     if (response.length === 0) {
