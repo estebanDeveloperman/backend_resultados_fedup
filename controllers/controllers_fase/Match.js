@@ -5,6 +5,15 @@ import Period from "../../models/models_fase/PeriodModel.js";
 import Category from "../../models/CategoryModel.js";
 import Phase from "../../models/PhaseModel.js";
 import { Op } from "sequelize";
+
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Obtener __dirname equivalente en ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 export const updateStatus = async (req, res) => {
   let idphase = req.body.idphase;
   try {
@@ -337,6 +346,17 @@ const getPeriodByMatch = async (idmatch) => {
 
 export const getMatchesByAPI = async (req, res) => {
   const { idevent, idsport, nrofecha } = req.query;
+
+  // Leer y parsear fisu.json
+  const fisuFilePath = path.resolve(__dirname, "fisu.json");
+  const fisuData = JSON.parse(fs.readFileSync(fisuFilePath, "utf8"));
+
+  // Si nrofecha es igual a 4, devolver el contenido del archivo fisu.json
+  if (idevent === "192" && idsport === "5" && nrofecha === "4") {
+    res.status(200).json(fisuData);
+    return;
+  }
+
   try {
     const responseCategory = await Category.findOne({
       attributes: ["id", "idchampionship", "idsport"],
