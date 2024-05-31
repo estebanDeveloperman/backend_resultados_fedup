@@ -7,8 +7,17 @@ export const getFechas = async (req, res) => {
     const { idevent, idsport } = req.query;
 
     if (idevent == 192 && idsport == 5) {
+      // fisu -> futbol varones
       const responseF = {
         nrofechas: 5,
+      };
+      res.status(200).json(responseF);
+      return;
+    }
+    if (idevent == 190 && idsport == 17) {
+      // la libertad -> voleibol varones
+      const responseF = {
+        nrofechas: 7,
       };
       res.status(200).json(responseF);
       return;

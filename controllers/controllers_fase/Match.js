@@ -356,6 +356,10 @@ export const getMatchesByAPI = async (req, res) => {
     res.status(200).json(fisuData);
     return;
   }
+  // if (idevent === "190" && idsport === "17" && nrofecha === "6") {
+  //   res.status(200).json(fisuData);
+  //   return;
+  // }
   // if (idevent === "192" && idsport === "5" && nrofecha === "5") {
   //   res.status(200).json(fisuData);
   //   return;f
