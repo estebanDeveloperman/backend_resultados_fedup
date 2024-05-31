@@ -356,10 +356,10 @@ export const getMatchesByAPI = async (req, res) => {
     res.status(200).json(fisuData);
     return;
   }
-  if (idevent === "192" && idsport === "5" && nrofecha === "5") {
-    res.status(200).json(fisuData);
-    return;
-  }
+  // if (idevent === "192" && idsport === "5" && nrofecha === "5") {
+  //   res.status(200).json(fisuData);
+  //   return;f
+  // }
 
   try {
     const responseCategory = await Category.findOne({
