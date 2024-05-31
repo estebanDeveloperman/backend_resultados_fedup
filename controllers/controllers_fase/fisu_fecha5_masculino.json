@@ -1,0 +1,138 @@
+[
+  {
+    "idgroup1": 688,
+    "idgroup2": 687,
+    "groupAsciiLetter": "-",
+    "dateOrder": 5,
+    "nroMatch": 17,
+    "dateMatch": "2024-05-31",
+    "timeMatch": "-",
+    "uniform1": "-",
+    "uniform2": "-",
+    "campus": "-",
+    "resultado1": 0,
+    "resultado2": 0,
+    "equipos": [
+      {
+        "business": "Universidad de la República",
+        "abrev": "UDELAR",
+        "orderGroup": 2,
+        "denomination": "",
+        "image_path": "https://sismaster.perufedup.com/writable/uploads/unis/iuacj.png",
+        "pais": "Brasil",
+        "bandera": "https://sismaster.perufedup.com/writable/uploads/flags/brasil.png"
+      },
+      {
+        "business": "Pontificia Universidad Católica de Chile",
+        "abrev": "PUC",
+        "orderGroup": 1,
+        "denomination": "",
+        "image_path": "https://sismaster.perufedup.com/writable/uploads/unis/puc.png",
+        "pais": "Chile",
+        "bandera": "https://sismaster.perufedup.com/writable/uploads/flags/chile.png"
+      }
+    ]
+  },
+  {
+    "idgroup1": 690,
+    "idgroup2": 689,
+    "groupAsciiLetter": "-",
+    "dateOrder": 4,
+    "nroMatch": 14,
+    "dateMatch": "2024-05-30",
+    "timeMatch": "10:00",
+    "uniform1": "Negra",
+    "uniform2": "Azul",
+    "campus": "Campo Fútbol Solanas # 2",
+    "resultado1": 1,
+    "resultado2": 0,
+    "equipos": [
+      {
+        "business": "Universidad Paulista",
+        "abrev": "UNIP",
+        "orderGroup": 4,
+        "denomination": "",
+        "image_path": "https://sismaster.perufedup.com/writable/uploads/unis/unip.png",
+        "pais": "Uruguay",
+        "bandera": "https://sismaster.perufedup.com/writable/uploads/flags/uruguay.png"
+      },
+      {
+        "business": "Unidades Tecnológicas de Santander",
+        "abrev": "UTS",
+        "orderGroup": 3,
+        "denomination": "",
+        "image_path": "https://sismaster.perufedup.com/writable/uploads/unis/unim.png",
+        "pais": "Colombia",
+        "bandera": "https://sismaster.perufedup.com/writable/uploads/flags/colombia.png"
+      }
+    ]
+  },
+  {
+    "idgroup1": 694,
+    "idgroup2": 691,
+    "groupAsciiLetter": "-",
+    "dateOrder": 4,
+    "nroMatch": 15,
+    "dateMatch": "2024-05-30",
+    "timeMatch": "12:00",
+    "uniform1": "Rojo",
+    "uniform2": "Negro con amarillo",
+    "campus": "Campo Fútbol Solanas # 1",
+    "resultado1": 1,
+    "resultado2": 0,
+    "equipos": [
+      {
+        "business": "Universidad de la Reública",
+        "abrev": "UDELAR",
+        "orderGroup": 4,
+        "denomination": "",
+        "image_path": "https://sismaster.perufedup.com/writable/uploads/unis/udelar.png",
+        "pais": "Uruguay",
+        "bandera": "https://sismaster.perufedup.com/writable/uploads/flags/uruguay.png"
+      },
+      {
+        "business": "Universidad de Atacama",
+        "abrev": "UDA",
+        "orderGroup": 1,
+        "denomination": "",
+        "image_path": "https://sismaster.perufedup.com/writable/uploads/unis/uda.png",
+        "pais": "Chile",
+        "bandera": "https://sismaster.perufedup.com/writable/uploads/flags/chile.png"
+      }
+    ]
+  },
+  {
+    "idgroup1": 692,
+    "idgroup2": 693,
+    "groupAsciiLetter": "-",
+    "dateOrder": 4,
+    "nroMatch": 16,
+    "dateMatch": "2024-05-30",
+    "timeMatch": "12:00",
+    "uniform1": "Amarillo",
+    "uniform2": "Azul",
+    "campus": "Campo Fútbol Solanas # 2",
+    "resultado1": 0,
+    "resultado2": 3,
+    "equipos": [
+      {
+        "business": "Universidad del Magdalena",
+        "abrev": "UNIMAG",
+        "orderGroup": 2,
+        "denomination": "",
+        "image_path": "https://sismaster.perufedup.com/writable/uploads/unis/unim.png",
+        "pais": "Brasil",
+        "bandera": "https://sismaster.perufedup.com/writable/uploads/flags/brasil.png"
+      },
+      {
+        "business": "Universidade Federal de Santa Catarina",
+        "abrev": "UFSC",
+        "orderGroup": 3,
+        "denomination": "",
+        "image_path": "https://sismaster.perufedup.com/writable/uploads/unis/ufsc.png",
+        "pais": "Colombia",
+        "bandera": "https://sismaster.perufedup.com/writable/uploads/flags/colombia.png"
+      }
+    ]
+  }
+]
