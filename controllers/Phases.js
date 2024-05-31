@@ -8,7 +8,7 @@ export const getFechas = async (req, res) => {
 
     if (idevent == 192 && idsport == 5) {
       const responseF = {
-        nrofechas: 6,
+        nrofechas: 5,
       };
       res.status(200).json(responseF);
       return;
