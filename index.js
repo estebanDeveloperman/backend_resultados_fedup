@@ -46,27 +46,28 @@ const store = new sessionStore({
 //  })();
 
 // codigo para produccion
-app.use(
-  session({
-    secret: "tiwiisgonnabeaking123912898932",
-    resave: false,
-    saveUninitialized: true,
-    store: store,
-    proxy: true,
-    name: "MyCoolWebAppCookieName",
-    cookie: {
-      secure: true,
-      sameSite: "none",
-    },
-  })
-);
+// app.use(
+//   session({
+//     secret: "tiwiisgonnabeaking123912898932",
+//     resave: false,
+//     saveUninitialized: true,
+//     store: store,
+//     proxy: true,
+//     name: "MyCoolWebAppCookieName",
+//     cookie: {
+//       secure: true,
+//       sameSite: "none",
+//     },
+//   })
+// );
 
 // store.sync();
 
 // codigo para desarrollo
 // app.use(
 //   session({
-//     secret: process.env.SESS_SECRET,
+//     // secret: process.env.SESS_SECRET,
+//     secret: "tiwiisgonnabeaking123912898932",
 //     resave: false,
 //     saveUninitialized: true,
 //     store: store,

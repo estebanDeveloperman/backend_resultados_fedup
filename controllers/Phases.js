@@ -22,6 +22,14 @@ export const getFechas = async (req, res) => {
       res.status(200).json(responseF);
       return;
     }
+    if (idevent == 192 && idsport == 42) {
+      // fisu -> fútbol damas
+      const responseF = {
+        nrofechas: 6,
+      };
+      res.status(200).json(responseF);
+      return;
+    }
 
     const responseCategory = await Category.findOne({
       attributes: ["id", "idchampionship", "idsport"],
