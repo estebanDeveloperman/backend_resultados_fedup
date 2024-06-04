@@ -409,12 +409,31 @@ export const getMatchesByAPI = async (req, res) => {
       res.status(204).send();
       return;
     }
-    for (let i = 0; i < response.length; i++) {
-      response[i].groupAsciiLetter = String.fromCharCode(
-        response[i].groupAsciiLetter
+
+    // -->
+    const arrayOrdenado = response.sort((a, b) => {
+      const dateA = new Date(`${a.dateMatch}T${a.timeMatch}`);
+      const dateB = new Date(`${b.dateMatch}T${b.timeMatch}`);
+      return dateA - dateB;
+    });
+
+    const minNroMatch = Math.min(
+      ...arrayOrdenado.map((match) => match.nroMatch)
+    );
+
+    // Reasignar nroMatch según el nuevo orden, comenzando desde el valor mínimo encontrado
+    arrayOrdenado.forEach((match, index) => {
+      match.nroMatch = minNroMatch + index;
+    });
+
+    // -->
+
+    for (let i = 0; i < arrayOrdenado.length; i++) {
+      arrayOrdenado[i].groupAsciiLetter = String.fromCharCode(
+        arrayOrdenado[i].groupAsciiLetter
       );
     }
-    const responseMapeadoPromises = response.map(async (match) => {
+    const responseMapeadoPromises = arrayOrdenado.map(async (match) => {
       const matchModificado = { ...match.toJSON() };
 
       const responseGroup1P = await GroupsTable.findOne({
