@@ -66,8 +66,7 @@ app.use(
 // codigo para desarrollo
 // app.use(
 //   session({
-//     // secret: process.env.SESS_SECRET,
-//     secret: "tiwiisgonnabeaking123912898932",
+//     secret: process.env.SESS_SECRET,
 //     resave: false,
 //     saveUninitialized: true,
 //     store: store,
