@@ -31,11 +31,7 @@ export const getPositionByPhase = async (req, res) => {
       where: {
         idphase: idphase,
         nrofecha: nrofecha,
-      },
-      order: [
-        ["pts", "DESC"], 
-        ["dp", "DESC"], 
-      ]
+      }
     });
     res.status(200).json(response);
   } catch (error) {
@@ -85,13 +81,7 @@ export const getPositionByPhaseVoleibol = async (req, res) => {
         idphase: idphase,
         nrofecha: nrofecha,
         // idphase: req.params.idphase,
-      },
-      order: [
-        ["pts", "DESC"], 
-        ["pg", "DESC"], 
-        ["setRatio", "DESC"],
-        ["puntosRatio", "DESC"]
-      ]
+      }
     });
     res.status(200).json(response);
   } catch (error) {
