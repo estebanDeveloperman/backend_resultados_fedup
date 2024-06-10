@@ -46,6 +46,17 @@ const store = new sessionStore({
   db: db,
 });
 
+app.use(
+  cors({
+    credentials: true,
+    // origin: "*",
+    // origin: "http://localhost:3000",
+    origin: ["https://winscore.perufedup.com", "https://sisdeu.perufedup.com"],
+    methods: ["POST", "GET", "DELETE", "PUT", "PATCH"],
+  })
+);
+
+
 // (async () => {
 //    await db.sync();
 //  })();
@@ -81,15 +92,6 @@ app.use(
 //   })
 // );
 
-app.use(
-  cors({
-    credentials: true,
-    // origin: "*",
-    // origin: "http://localhost:3000",
-    origin: ["https://winscore.perufedup.com", "https://sisdeu.perufedup.com"],
-    methods: ["POST", "GET", "DELETE", "PUT", "PATCH"],
-  })
-);
 
 app.use(express.json());
 app.use(UserRoute);
