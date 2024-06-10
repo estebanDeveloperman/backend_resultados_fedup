@@ -174,8 +174,7 @@ export const getMatchupsByPhase = async (req, res) => {
     });
 
     if (response.length === 0) {
-      res.status(204).send();
-      return;
+      return res.status(204).json([]); // Enviar un array vacío como respuesta
     }
 
     const responseMapeadoPromises = response.map(async (matchup) => {
@@ -346,7 +345,7 @@ export const createMatchup = async (req, res) => {
   } = req.body;
 
   try {
-    await Matchups.create({
+    const response = await Matchups.create({
       codigo_match,
       etapa,
       direccion,
@@ -377,6 +376,7 @@ export const createMatchup = async (req, res) => {
       parametro1,
       parametro2,
     });
+    res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ msg: error.message });
   }

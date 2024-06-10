@@ -29,6 +29,11 @@ import SancionadoRoute from "./routes/routes_resultados/SancionesRoute.js";
 import PositionApiRoute from "./routes/routes_api/PositionApiRoute.js";
 import FechaApiRoute from "./routes/routes_api/FechaRouteApi.js";
 import MatchApiRoute from "./routes/routes_api/MatchesRouteApi.js";
+
+import CompetitorRoute from "./routes/routes_final/CompetitorsRoute.js";
+import MatchupRoute from "./routes/routes_final/MatchupRoute.js";
+import PeriodFinalRoute from "./routes/routes_final/PeriodFinalRoute.js";
+
 import { PORT } from "./config.js";
 
 // configuraciones
@@ -109,6 +114,9 @@ app.use(GroupConfigRoute);
 app.use(GoleadoresRoute);
 app.use(EscenarioRoute);
 app.use(SancionadoRoute);
+app.use(CompetitorRoute);
+app.use(MatchupRoute);
+app.use(PeriodFinalRoute);
 // store.sync();
 
 app.listen(PORT, () => {
