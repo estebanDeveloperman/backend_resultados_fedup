@@ -6,6 +6,14 @@ export const getFechas = async (req, res) => {
   try {
     const { idevent, idsport } = req.query;
 
+    if (idevent == 186 && idsport) {
+      const responseF = {
+        nrofechas: 8,
+      };
+      res.status(200).json(responseF);
+      return;
+    }
+
     if (idevent == 192 && idsport == 5) {
       // fisu -> futbol varones
       const responseF = {
