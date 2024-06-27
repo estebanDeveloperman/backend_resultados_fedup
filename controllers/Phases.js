@@ -24,6 +24,9 @@ export const getFlags = async (req, res) => {
   if (idEvent === 186) {
     flagLlaves = true;
   }
+  if (idEvent === 192) {
+    flagLlaves = true;
+  }
 
   if (idEvent === 187 && (idSport === 4 || idSport === 16 || idSport === 17)) {
     flagPosiciones = true;
