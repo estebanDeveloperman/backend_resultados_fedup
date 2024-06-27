@@ -373,28 +373,30 @@ export const getMatchesOfFinalsDivision1 = async (req, res) => {
   let phaseId = Number(idphase);
   // let arrayFechas = [3, 4, 5];
   let arrayFechas = [];
-  if (
-    phaseId === 38 ||
-    phaseId === 39 ||
-    phaseId === 42 ||
-    phaseId === 43 ||
-    phaseId === 44 ||
-    phaseId === 45 ||
-    phaseId === 46
-  ) {
-    arrayFechas = [6, 7, 8];
-  }
-  if (phaseId === 48 || phaseId === 51) {
-    arrayFechas = [4, 5];
-  }
-  if (phaseId === 52) {
-    arrayFechas = [6, 7];
-  }
-  if (phaseId === 70) {
-    arrayFechas = [6];
-  }
-  if (phaseId === 71) {
-    arrayFechas = [4, 5];
+  if (true) {
+    if (
+      phaseId === 38 ||
+      phaseId === 39 ||
+      phaseId === 42 ||
+      phaseId === 43 ||
+      phaseId === 44 ||
+      phaseId === 45 ||
+      phaseId === 46
+    ) {
+      arrayFechas = [6, 7, 8];
+    }
+    if (phaseId === 48 || phaseId === 51) {
+      arrayFechas = [4, 5];
+    }
+    if (phaseId === 52) {
+      arrayFechas = [6, 7];
+    }
+    if (phaseId === 70) {
+      arrayFechas = [6];
+    }
+    if (phaseId === 71) {
+      arrayFechas = [4, 5];
+    }
   }
 
   try {

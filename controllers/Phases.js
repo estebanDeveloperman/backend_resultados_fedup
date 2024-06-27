@@ -18,7 +18,8 @@ export const getFlags = async (req, res) => {
     idEvent === 192 ||
     idEvent === 193
   ) {
-    flagPosiciones = true;
+    // flagPosiciones = true;
+    flagPosiciones = false;
   }
   if (idEvent === 186) {
     flagLlaves = true;
