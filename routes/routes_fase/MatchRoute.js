@@ -6,7 +6,8 @@ import {
   updateMatch,
   getMatchById,
   updateStatus,
-  getMatchesByAPI
+  getMatchesByAPI,
+  getMatchesOfFinalsDivision1,
 } from "../../controllers/controllers_fase/Match.js";
 
 const router = express.Router();
@@ -19,6 +20,8 @@ router.patch("/matches/:id", updateMatch);
 
 router.patch("/matchstatus", updateStatus);
 
-router.get("/matchesapi", getMatchesByAPI)
+router.get("/matchesapi", getMatchesByAPI);
+
+router.get("/matchesfinal", getMatchesOfFinalsDivision1);
 
 export default router;

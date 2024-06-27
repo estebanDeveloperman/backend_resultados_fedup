@@ -112,238 +112,6 @@ const getPeriodByMatch = async (idmatch) => {
   }
 };
 
-// export const getMatchesByAPI = async (req, res) => {
-//   const { idevent, idsport, nrofecha } = req.query;
-//   try {
-//     const responseCategory = await Category.findOne({
-//       attributes: ["id", "idchampionship", "idsport"],
-//       where: {
-//         idchampionship: idevent,
-//         idsport: idsport,
-//       },
-//     });
-
-//     const responsePhase = await Phase.findAll({
-//       attributes: ["idphase", "idchampionship", "idcategory"],
-//       where: {
-//         idchampionship: idevent,
-//         idcategory: responseCategory.id,
-//       },
-//     });
-//     const responseData = responsePhase[0]; // la fase correspondiente
-//     const idPhase = responseData.idphase;
-
-//     const response = await Matches.findAll({
-//       attributes: [
-//         "idgroup1",
-//         "idgroup2",
-//         "groupAsciiLetter",
-//         "dateOrder",
-//         "nroMatch",
-//         "dateMatch",
-//         "timeMatch",
-//         "uniform1",
-//         "uniform2",
-//         "campus",
-//         "resultado1",
-//         "resultado2",
-//       ],
-//       where: {
-//         idphase: idPhase,
-//         dateOrder: nrofecha !== undefined ? nrofecha : { [Op.ne]: null },
-//         statusDB: true,
-//       },
-//     });
-//     if (response.length === 0) {
-//       res.status(204).send();
-//       return;
-//     }
-//     for (let i = 0; i < response.length; i++) {
-//       response[i].groupAsciiLetter = String.fromCharCode(
-//         response[i].groupAsciiLetter
-//       );
-//     }
-//     const responseMapeadoPromises = response.map(async (match) => {
-//       const matchModificado = { ...match.toJSON() };
-
-//       const responseGroup1P = await GroupsTable.findOne({
-//         attributes: [
-//           "business",
-//           "abrev",
-//           "orderGroup",
-//           "denomination",
-//           "image_path",
-//         ],
-//         where: {
-//           idgroup: matchModificado.idgroup1,
-//         },
-//       });
-//       const responseGroup2P = await GroupsTable.findOne({
-//         attributes: [
-//           "business",
-//           "abrev",
-//           "orderGroup",
-//           "denomination",
-//           "image_path",
-//         ],
-//         where: {
-//           idgroup: matchModificado.idgroup2,
-//         },
-//       });
-//       const [responseGroup1, responseGroup2] = await Promise.all([
-//         responseGroup1P,
-//         responseGroup2P,
-//       ]);
-
-//       // matchModificado.institucion1 = responseGroup1;
-//       // matchModificado.institucion2 = responseGroup2;
-//       matchModificado.equipos = [responseGroup1, responseGroup2];
-
-//       return matchModificado;
-//     });
-//     // terminar de ejecutar las promesas
-//     const responseMapeado = await Promise.all(responseMapeadoPromises);
-
-//     // console.log(responseMapeado);
-//     res.status(200).json(responseMapeado);
-//   } catch (error) {
-//     res.status(500).json({ msg: error.message });
-//   }
-// };
-
-// export const getMatchesByAPI = async (req, res) => {
-//   const { idevent, idsport, nrofecha } = req.query;
-//   try {
-//     const responseCategory = await Category.findOne({
-//       attributes: ["id", "idchampionship", "idsport"],
-//       where: {
-//         idchampionship: idevent,
-//         idsport: idsport,
-//       },
-//     });
-
-//     const responsePhase = await Phase.findAll({
-//       attributes: ["idphase", "idchampionship", "idcategory"],
-//       where: {
-//         idchampionship: idevent,
-//         idcategory: responseCategory.id,
-//       },
-//     });
-
-//     let idPhases = [responsePhase[0].idphase]; // fase correspondiente
-//     let additionalPhaseCondition = false;
-
-//     if (
-//       idevent === 192 &&
-//       idsport === 5 &&
-//       (nrofecha === 4 || nrofecha === 5)
-//     ) {
-//       idPhases = [responsePhase[0].idphase, responsePhase[1].idphase];
-//       additionalPhaseCondition = true;
-//     }
-
-//     const whereConditions = {
-//       idphase: idPhases,
-//       statusDB: true,
-//     };
-
-//     if (nrofecha !== undefined) {
-//       whereConditions.dateOrder = nrofecha;
-//     }
-
-//     const response = await Matches.findAll({
-//       attributes: [
-//         "idgroup1",
-//         "idgroup2",
-//         "groupAsciiLetter",
-//         "dateOrder",
-//         "nroMatch",
-//         "dateMatch",
-//         "timeMatch",
-//         "uniform1",
-//         "uniform2",
-//         "campus",
-//         "resultado1",
-//         "resultado2",
-//       ],
-//       where: whereConditions,
-//     });
-
-//     if (response.length === 0) {
-//       res.status(204).send();
-//       return;
-//     }
-
-//     const modifiedResponse = response.map((match) => {
-//       const matchModificado = { ...match.toJSON() };
-
-//       // Modificar dateOrder para partidos de responsePhase[1]
-//       if (
-//         additionalPhaseCondition &&
-//         match.idphase === responsePhase[1].idphase
-//       ) {
-//         matchModificado.dateOrder += 3;
-//       }
-
-//       matchModificado.groupAsciiLetter = String.fromCharCode(
-//         matchModificado.groupAsciiLetter
-//       );
-
-//       return matchModificado;
-//     });
-
-//     const responseMapeadoPromises = modifiedResponse.map(async (match) => {
-//       const matchModificado = { ...match };
-
-//       const responseGroup1P = await GroupsTable.findOne({
-//         attributes: [
-//           "business",
-//           "abrev",
-//           "orderGroup",
-//           "denomination",
-//           "image_path",
-//           "pais",
-//           "bandera",
-//         ],
-//         where: {
-//           idgroup: matchModificado.idgroup1,
-//         },
-//       });
-
-//       const responseGroup2P = await GroupsTable.findOne({
-//         attributes: [
-//           "business",
-//           "abrev",
-//           "orderGroup",
-//           "denomination",
-//           "image_path",
-//           "pais",
-//           "bandera",
-//         ],
-//         where: {
-//           idgroup: matchModificado.idgroup2,
-//         },
-//       });
-
-//       const [responseGroup1, responseGroup2] = await Promise.all([
-//         responseGroup1P,
-//         responseGroup2P,
-//       ]);
-
-//       matchModificado.equipos = [responseGroup1, responseGroup2];
-
-//       return matchModificado;
-//     });
-
-//     // Terminar de ejecutar las promesas
-//     const responseMapeado = await Promise.all(responseMapeadoPromises);
-
-//     res.status(200).json(responseMapeado);
-//   } catch (error) {
-//     res.status(500).json({ msg: error.message });
-//   }
-// };
-
 export const getMatchesByAPI = async (req, res) => {
   const { idevent, idsport, nrofecha } = req.query;
 
@@ -580,24 +348,7 @@ export const getMatchesByPhase = async (req, res) => {
           }),
           getPeriodByMatch(matchModificado.idmatch),
         ]);
-      // const responseInstitution1 = await Participant.findOne({
-      //   attributes: ["idparticipant", "idinstitution"],
-      //   where: {
-      //     idparticipant:
-      //       responseGroup1 && responseGroup1.toJSON()
-      //         ? responseGroup1.toJSON().idparticipant
-      //         : "",
-      //   },
-      // });
-      // const responseInstitution2 = await Participant.findOne({
-      //   attributes: ["idparticipant", "idinstitution"],
-      //   where: {
-      //     idparticipant:
-      //       responseGroup2 && responseGroup2.toJSON()
-      //         ? responseGroup2.toJSON().idparticipant
-      //         : "",
-      //   },
-      // });
+
       matchModificado.insitutionId1 = responseInstitution1;
       matchModificado.insitutionId2 = responseInstitution2;
       matchModificado.institucionGroup1 = responseGroup1;
@@ -609,6 +360,147 @@ export const getMatchesByPhase = async (req, res) => {
     });
 
     // terminar de ejecutar las promesas
+    const responseMapeado = await Promise.all(responseMapeadoPromises);
+
+    res.status(200).json(responseMapeado);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+};
+
+export const getMatchesOfFinalsDivision1 = async (req, res) => {
+  const { idphase } = req.query;
+  let phaseId = Number(idphase);
+  // let arrayFechas = [3, 4, 5];
+
+  if (
+    phaseId === 38 ||
+    phaseId === 39 ||
+    phaseId === 42 ||
+    phaseId === 43 ||
+    phaseId === 44 ||
+    phaseId === 45 ||
+    phaseId === 46
+  ) {
+    arrayFechas = [6, 7, 8];
+  }
+  if (phaseId === 48 || phaseId === 51) {
+    arrayFechas = [4, 5];
+  }
+  if (phaseId === 52) {
+    arrayFechas = [6, 7];
+  }
+  if (phaseId === 70) {
+    arrayFechas = [6];
+  }
+  if (phaseId === 71) {
+    arrayFechas = [4, 5];
+  }
+
+  try {
+    const response = await Matches.findAll({
+      attributes: [
+        "idmatch",
+        "idfixture",
+        "idgroup1",
+        "idgroup2",
+        "groupAsciiLetter",
+        "dateOrder",
+        "nroMatch",
+        "ordenMatch",
+        "dateMatch",
+        "timeMatch",
+        "uniform1",
+        "uniform2",
+        "campus",
+        "resultado1",
+        "resultado2",
+        "sets1",
+        "sets2",
+        "idwinner",
+        "idloser",
+        "flagConfirmado",
+        "idfecha",
+        "fecha",
+        "idphase",
+        "parametro1",
+        "parametro2",
+      ],
+      where: {
+        idphase: idphase,
+        dateOrder: {
+          [Op.in]: arrayFechas,
+        },
+        statusDB: true,
+      },
+    });
+
+    const responseMapeadoPromises = response.map(async (match) => {
+      const matchModificado = { ...match.toJSON() };
+
+      const responseGroup1P = await GroupsTable.findOne({
+        attributes: [
+          "idgroup",
+          "idphase",
+          "idparticipant",
+          "business",
+          "abrev",
+          "groupAsciiLetter",
+          "orderGroup",
+          "denomination",
+          "image_path",
+        ],
+        where: {
+          idgroup: matchModificado.idgroup1,
+        },
+      });
+      const responseGroup2P = await GroupsTable.findOne({
+        attributes: [
+          "idgroup",
+          "idphase",
+          "idparticipant",
+          "business",
+          "abrev",
+          "groupAsciiLetter",
+          "orderGroup",
+          "denomination",
+          "image_path",
+        ],
+        where: {
+          idgroup: matchModificado.idgroup2,
+        },
+      });
+      const [responseGroup1, responseGroup2] = await Promise.all([
+        responseGroup1P,
+        responseGroup2P,
+      ]);
+      const [responseInstitution1, responseInstitution2, responsePerd] =
+        await Promise.all([
+          Participant.findOne({
+            attributes: ["idparticipant", "idinstitution"],
+            where: {
+              idparticipant: responseGroup1 ? responseGroup1.idparticipant : "",
+            },
+          }),
+          Participant.findOne({
+            attributes: ["idparticipant", "idinstitution"],
+            where: {
+              idparticipant: responseGroup2 ? responseGroup2.idparticipant : "",
+            },
+          }),
+          getPeriodByMatch(matchModificado.idmatch),
+        ]);
+
+      matchModificado.insitutionId1 = responseInstitution1;
+      matchModificado.insitutionId2 = responseInstitution2;
+      matchModificado.institucionGroup1 = responseGroup1;
+      matchModificado.institucionGroup2 = responseGroup2;
+      matchModificado.periods = responsePerd;
+      // matchModificado.periods = responsePerd
+
+      return matchModificado;
+    });
+
     const responseMapeado = await Promise.all(responseMapeadoPromises);
 
     res.status(200).json(responseMapeado);

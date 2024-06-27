@@ -2,6 +2,40 @@ import Phase from "../models/PhaseModel.js";
 import Fixtures from "../models/models_fase/FixtureModel.js";
 import Category from "../models/CategoryModel.js";
 
+export const getFlags = async (req, res) => {
+  const { idevent, idsport } = req.query;
+  let flagPosiciones = false;
+  let flagLlaves = false;
+
+  let idEvent = Number(idevent);
+  let idSport = Number(idsport);
+
+  if (
+    idEvent === 186 ||
+    idEvent === 187 ||
+    idEvent === 190 ||
+    idEvent === 191 ||
+    idEvent === 192 ||
+    idEvent === 193
+  ) {
+    flagPosiciones = true;
+  }
+  if (idEvent === 186) {
+    flagLlaves = true;
+  }
+
+  if (idEvent === 187 && (idSport === 4 || idSport === 16 || idSport === 17)) {
+    flagPosiciones = true;
+  }
+
+  let obj = {
+    flagPosiciones: flagPosiciones,
+    flagLlaves: flagLlaves,
+  };
+
+  res.status(200).json(obj);
+};
+
 export const getFechas = async (req, res) => {
   try {
     const { idevent, idsport } = req.query;
