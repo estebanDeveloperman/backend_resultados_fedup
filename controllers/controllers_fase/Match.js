@@ -372,7 +372,7 @@ export const getMatchesOfFinalsDivision1 = async (req, res) => {
   const { idphase } = req.query;
   let phaseId = Number(idphase);
   // let arrayFechas = [3, 4, 5];
-
+  let arrayFechas = [];
   if (
     phaseId === 38 ||
     phaseId === 39 ||
