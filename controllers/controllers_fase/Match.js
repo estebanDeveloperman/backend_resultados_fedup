@@ -451,6 +451,8 @@ export const getMatchesOfFinalsDivision1 = async (req, res) => {
           "orderGroup",
           "denomination",
           "image_path",
+          "pais",
+          "bandera",
         ],
         where: {
           idgroup: matchModificado.idgroup1,
@@ -467,6 +469,8 @@ export const getMatchesOfFinalsDivision1 = async (req, res) => {
           "orderGroup",
           "denomination",
           "image_path",
+          "pais",
+          "bandera",
         ],
         where: {
           idgroup: matchModificado.idgroup2,
